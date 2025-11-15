@@ -3,6 +3,7 @@ import requests
 from memory.simple_memory import SimpleMemory
 from personas.sarjana import Sarjana
 from personas.durjana import Durjana
+from voice.voice_manager import VoiceManager
 
 class Brain:
     def __init__(self):
@@ -13,6 +14,7 @@ class Brain:
         self.sarjana = Sarjana()
         self.durjana = Durjana()
         self.current_persona = self.sarjana
+        self.voice = VoiceManager()
 
     def switch_persona(self, persona_name):
         if persona_name.lower() == "durjana":
@@ -20,6 +22,23 @@ class Brain:
         else:
             self.current_persona = self.sarjana
         logger.info(f"Switched to {self.current_persona.name}")
+
+    def think_and_speak(self, prompt):
+        """Think and then speak the response"""
+        # Get text response
+        response = self.think(prompt)
+
+        # Convert to speech
+        audio_path = self.voice.speak(
+            response,
+            persona=self.current_persona.name.lower()
+        )
+
+        return {
+            "text": response,
+            "audio": audio_path,
+            "persona": self.current_persona.name
+        }
 
     def think(self, prompt):
         try:
