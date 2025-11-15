@@ -1,0 +1,37 @@
+name: Maya Auto Runner
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  push:
+    branches: [main]
+
+jobs:
+  keep_maya_alive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Test Maya Systems
+        run: python cloud/auto_test.py
+
+      - name: Check Brain Status
+        run: |
+          echo "Checking if Maya is thinking..."
+          python -c "from cloud.storage import check_brain; check_brain()"
+
+      - name: Auto-commit any changes
+        run: |
+          git config --global user.name 'Maya AI'
+          git config --global user.email 'maya@ai.com'
+          git add -A
+          git diff --staged --quiet || git commit -m "Maya auto-update"
+          git push || true

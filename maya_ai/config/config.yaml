@@ -1,0 +1,7 @@
+project:
+  name: "Maya AI"
+  version: "0.0.1"
+
+deployment:
+  auto_deploy: true
+  cloud_only: true
