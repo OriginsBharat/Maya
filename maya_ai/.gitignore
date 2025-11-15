@@ -63,4 +63,5 @@ venv.bak/
 
 # Maya specific
 maya_data/
+!maya_data/personas/
 *.log
