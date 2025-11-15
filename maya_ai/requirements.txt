@@ -2,3 +2,6 @@ requests
 pyyaml
 python-dotenv
 loguru
+pillow
+pytesseract
+pyautogui
