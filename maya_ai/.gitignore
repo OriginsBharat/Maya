@@ -65,3 +65,7 @@ venv.bak/
 maya_data/
 !maya_data/personas/
 *.log
+
+# Maya runtime files
+maya_data/state.json
+maya_data/logs/
